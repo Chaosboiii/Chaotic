@@ -78,7 +78,7 @@ async def help(ctx, arg=str()):
 		embed = discord.Embed(title=f'Help | {prefix}vote', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Sends voting link.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}vote', inline=False)
-	elif arg.lower() == 'vote':
+	elif arg.lower() == 'code':
 		embed = discord.Embed(title=f'Help | {prefix}code', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Sends a link to Chaotic\'s GitHub repository.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}vote', inline=False)
