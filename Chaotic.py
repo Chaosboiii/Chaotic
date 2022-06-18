@@ -38,12 +38,14 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-	if isinstance(error, commands.errors.MissingPermissions):
-		await ctx.reply(f'You need the permission `{error.missing_perms[0]}` to run this command!')
-	elif isinstance(error, commands.errors.CommandNotFound):
+	if isinstance(error, commands.errors.CommandNotFound):
 		await ctx.reply(f'I don\'t recognize that command!')
 	elif isinstance(error, commands.errors.BadArgument):
 		await ctx.reply(f'There was something wrong with one or more of your arguments.')
+	elif isinstance(error, commands.errors.CommandOnCooldown):
+		await ctx.reply(f'You must wait {error.retry_after:.1f} seconds before using that command again..')
+	elif isinstance(error, commands.errors.MissingPermissions):
+		await ctx.reply(f'You need the permission `{error.missing_perms[0]}` to run this command!')
 	else:
 		await ctx.reply(f'Something went wrong.')
 		raise(error)
@@ -192,7 +194,8 @@ async def rng(ctx, min=int(), max=int()):
 	else:
 		await ctx.reply('Something was wrong with at least one of your arguments.')
 @bot.command()
-async def prime(ctx, number=int()):
+@commands.cooldown(1, 5, commands.BucketType.user)
+async def prime(ctx, number=None):
 	if number != None and number.isdecimal():
 		async with ctx.typing():
 			number = int(number)
