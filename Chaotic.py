@@ -24,7 +24,7 @@ from discord.ext import commands
 import discord, random, time, subprocess, psutil
 
 prefix = 'c!'
-bot = commands.Bot(command_prefix=prefix, help_command=None)
+bot = commands.Bot(command_prefix=prefix, help_command=None, intents=discord.Intents.default())
 blank = '\u200b '
 embed = ''
 
@@ -33,6 +33,7 @@ async def on_ready():
 	import time
 	print(time.strftime(f'logged in as {bot.user} at %d. %B %Y %H:%M:%S', time.localtime(time.time())))
 	await bot.change_presence(status=discord.Status.online, activity=discord.Game(name="with the code"))
+	await bot.tree.sync()
 	global startTime
 	startTime = time.time()
 
@@ -51,9 +52,9 @@ async def on_command_error(ctx, error):
 		raise(error)
 
 #Utility
-@bot.command()
-async def help(ctx, arg=str()):
-	if arg == None:
+@bot.hybrid_command()
+async def help(ctx, command=str()):
+	if command == None:
 		embed = discord.Embed(title='Chaotic Commands', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 4}Utility', value=f'{blank * 8}`{prefix}help`{blank * 5}Sends this message.\n{blank * 8}`{prefix}ping`{blank * 5}Sends ping and uptime.\n{blank * 8}`{prefix}privacy`{blank * 5}Sends Chaotic\'s privacy policy.\n{blank * 8}`{prefix}vote`{blank * 5}Sends voting link.\n{blank * 8}`{prefix}code`{blank * 5}Sends a link to Chaotic\'s github repository.')
 		embed.add_field(name=f'{blank * 4}Fun', value=f'{blank * 8}`{prefix}rng`{blank * 5}Generates a random number.\n{blank * 8}`{prefix}coinflip`{blank * 5}Flips a coin.\n{blank * 8}`{prefix}char`{blank * 5}Counts characters.', inline=False)
@@ -61,56 +62,56 @@ async def help(ctx, arg=str()):
 		embed.add_field(name=f'{blank * 4}Numbers', value=f'{blank * 8}`{prefix}prime`{blank * 5}Check if a number is prime or not.\n{blank * 8}`{prefix}convert`{blank * 5}Converts metric units.', inline=False)
 		embed.set_footer(text=f'You can use {prefix}help (command) to get more information on a command.')
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'help':
+	elif command.lower() == 'help':
 		embed = discord.Embed(title=f'Help | {prefix}help', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}If no command is given or given command is not valid, sends a list of commands.\n{blank * 8}If given command is valid, sends a description, usage and a usage example of the command, like this page.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}help `(command)`\n{blank * 8}{prefix}help ping', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'ping':
+	elif command.lower() == 'ping':
 		embed = discord.Embed(title=f'Help | {prefix}ping', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Sends the ping and uptime of the bot, takes no arguments.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}ping', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'privacy':
+	elif command.lower() == 'privacy':
 		embed = discord.Embed(title=f'Help | {prefix}privacy', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Sends Chaotic\'s privacy policy.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}privacy', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'vote':
+	elif command.lower() == 'vote':
 		embed = discord.Embed(title=f'Help | {prefix}vote', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Sends voting link.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}vote', inline=False)
-	elif arg.lower() == 'code':
+	elif command.lower() == 'code':
 		embed = discord.Embed(title=f'Help | {prefix}code', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Sends a link to Chaotic\'s GitHub repository.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}vote', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'rng':
+	elif command.lower() == 'rng':
 		embed = discord.Embed(title=f'Help | {prefix}rng', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Generates a random number, takes 2 arguments: minimum and maximum.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}rng `minimum` `maximum`\n{blank * 8}{prefix}rng 0 10', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'coinflip':
+	elif command.lower() == 'coinflip':
 		embed = discord.Embed(title=f'Help | {prefix}coinflip', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Sends Heads or Tails, takes no arguments.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}coinflip', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'char':
+	elif command.lower() == 'char':
 		embed = discord.Embed(title=f'Help | {prefix}char', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Counts the amount of characters in the given argument.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}char `argument`\n{blank * 8}{prefix}char The quick brown fox jumps over the lazy dog.', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'time':
+	elif command.lower() == 'time':
 		embed = discord.Embed(title=f'Help | {prefix}time', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Sends seconds since the Unix Epoch.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}time', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'prime':
+	elif command.lower() == 'prime':
 		embed = discord.Embed(title=f'Help | {prefix}prime', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Checks if a number is a prime number.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}prime `number`\n{blank * 8}{prefix}prime 17', inline=False)
 		await ctx.reply(embed=embed)
-	elif arg.lower() == 'convert':
+	elif command.lower() == 'convert':
 		embed = discord.Embed(title=f'Help | {prefix}convert', color=discord.Color.orange())
 		embed.add_field(name=f'{blank * 5}Description', value=f'{blank * 8}Converts metric units.', inline=False)
 		embed.add_field(name=f'{blank * 5}Usage', value=f'{blank * 8}{prefix}convert `amount` `unit` `unit`\n{blank * 8}{prefix}convert 8 kilogram gram', inline=False)
@@ -123,77 +124,83 @@ async def help(ctx, arg=str()):
 		embed.add_field(name=f'{blank * 4}Numbers', value=f'{blank * 8}`{prefix}prime`{blank * 5}Check if a number is prime or not.\n{blank * 8}`{prefix}convert`{blank * 5}Converts metric units.', inline=False)
 		embed.set_footer(text=f'You can use {prefix}help (command) to get more information on a command.')
 		await ctx.reply(embed=embed)
-@bot.command()
+@bot.hybrid_command()
 async def ping(ctx):
 	import time
 	embed = discord.Embed(color=discord.Color.orange())
 	embed.add_field(name='Ping', value=f'{bot.latency * 1000:.1f} ms')
-	seconds, minutes, hours, days = time.time() - startTime, (time.time() - startTime) // 60, (time.time() - startTime) // 60 // 60, (time.time() - startTime) // 60 // 60 // 24
+
+	seconds = int(time.time() - startTime)
+	minutes = int(seconds / 60)
+	hours = int(minutes / 60)
+	days = int(hours / 24)
+
 	seconds -= minutes * 60
 	minutes -= hours * 60
 	hours -= days * 24
+
+	sSuffix = ''
 	if seconds != 1: sSuffix = 's'
-	else: sSuffix = ''
+	mSuffix = ''
 	if minutes != 1: mSuffix = 's'
-	else: mSuffix = ''
+	hSuffix = ''
 	if hours != 1: hSuffix = 's'
-	else: hSuffix = ''
+	dSuffix = ''
 	if days != 1: dSuffix = 's'
-	else: dSuffix = ''
-	if int(days) != 0:
-		embed.add_field(name='Bot Uptime', value=f'{int(days)} day{dSuffix}, {int(hours)} hour{hSuffix} and {int(minutes)} minute{mSuffix}', inline=False)
-	elif int(hours) != 0:
-		embed.add_field(name='Bot Uptime', value=f'{int(hours)} hour{hSuffix} and {int(minutes)} minute{mSuffix}', inline=False)
-	elif int(minutes) != 0:
-		embed.add_field(name='Bot Uptime', value=f'{int(minutes)} minute{mSuffix} and {int(seconds)} second{sSuffix}', inline=False)
-	else:
-		embed.add_field(name='Bot Uptime', value=f'{int(seconds)} second{sSuffix}', inline=False)
+
+	s = f'{seconds} second{sSuffix}'
+	m, h, d = '', '', ''
+	if minutes != 0: m = f'{minutes} minute{mSuffix},'
+	if hours != 0: h = f'{hours} hour{hSuffix},'
+	if days != 0: d = f'{days} day{dSuffix},'
+
+	embed.add_field(name='Bot Uptime', value=f'{d} {h} {m} {s}', inline=False)
 	embed.add_field(name='CPU temperature', value=str(int(psutil.sensors_temperatures()['cpu_thermal'][0].current)) + '\u00b0C', inline=False)
 	embed.add_field(name='Memory', value=f'{int(psutil.virtual_memory().used / 1024**2)} MiB / {int(psutil.virtual_memory().total / 1024**2)}MiB', inline=False)
 	embed.add_field(name='Server Uptime', value=subprocess.check_output('uptime -p', shell=True).decode('utf-8').replace('up ', ''), inline=False)
 	await ctx.reply(embed=embed)
 
-@bot.command()
+@bot.hybrid_command()
 async def privacy(ctx):
 	embed = discord.Embed(color=discord.Color.orange())
 	embed.add_field(name='Chaotic\'s privacy policy', value='Chaotic does not store any guild/user data.')
 	await ctx.reply(embed=embed)
 
-@bot.command()
+@bot.hybrid_command()
 async def vote(ctx):
 	embed = discord.Embed(title=f'Vote', description='You can vote at https://top.gg/bot/774735144837578802/vote.', color=discord.Color.orange())
 	await ctx.reply(embed=embed)
 
-@bot.command()
+@bot.hybrid_command()
 async def code(ctx):
 	embed = discord.Embed(title=f'Source Code', description='You can find Chaotic\'s source code at at https://github.com/Chaosboiii/Chaotic.', color=discord.Color.orange())
 	await ctx.reply(embed=embed)
 
 #Fun
-@bot.command()
-async def char(ctx, *, arg=str()):
-	if arg == None:
+@bot.hybrid_command()
+async def char(ctx, *, string=str()):
+	if string == None:
 		await ctx.reply('No arguments given.')
 	else:
-		await ctx.reply(f'There are {len(arg)} character(s), and {len(arg.replace(" ", ""))} character(s) without spaces.')
-@bot.command()
+		await ctx.reply(f'There are {len(string)} character(s), and {len(string.replace(" ", ""))} character(s) without spaces.')
+@bot.hybrid_command()
 async def coinflip(ctx):
 	await ctx.reply(f'You got {random.choice(["heads", "tails"])}.')
 
 #Time
-@bot.command()
+@bot.hybrid_command()
 async def time(ctx):
 	import time
 	await ctx.reply(f'There has been {int(time.time())} seconds since the Unix Epoch.')
 
 #Numbers
-@bot.command()
+@bot.hybrid_command()
 async def rng(ctx, min=int(), max=int()):
 	if str(min).isdecimal() and str(max).isdecimal():
 		await ctx.reply(f'Your random number is {random.randint(int(min), int(max))}.')
 	else:
 		await ctx.reply('Something was wrong with at least one of your arguments.')
-@bot.command()
+@bot.hybrid_command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def prime(ctx, number=None):
 	if number != None and number.isdecimal():
@@ -219,8 +226,10 @@ async def prime(ctx, number=None):
 	else:
 		await ctx.reply('You need to send a number.')
 
-@bot.command()
-async def convert(ctx, amount1=float(), unit1=str(), unit2=str()):
+@bot.hybrid_command()
+async def convert(ctx, amount=float(), unit=str(), unit2=str()):
+	amount1 = amount
+	unit1 = unit
 	units = {'meter':'meters', 'gram':'grams', 'liter':'liters', 'second':'seconds'}
 	prefixes = {
 'yocto':10**-24, 'zepto':10**-21, 'atto':10**-18, 'femto':10**-15, 'pico':10**-12, 'nano':10**-9, 'micro':10**-6, 'milli':0.001, 'centi':0.01, 'desi':0.1,
