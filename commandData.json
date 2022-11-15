@@ -1,0 +1,89 @@
+{
+"help": {
+	"short_desc": "Sends this message",
+	"slash_desc": "Find out what the commands do",
+	"description": "If no command is given or given command is not valid, sends a list of commands.\n If given command is valid, sends a description, usage and a usage example of the command, like this page.",
+	"arguments": "`command`",
+	"example": "ping"
+},
+
+"ping": {
+	"short_desc": "Sends latency and some info about the bot and server",
+	"slash_desc": "Find out Chaotic's latency and uptime, and some stats about the server",
+	"description": "Sends the latency and uptime of the bot, as well as some server stuff.",
+	"arguments": "",
+	"example": ""
+	},
+
+"privacy": {
+	"short_desc": "Sends Chaotic's privacy policy",
+	"slash_desc": "Read Chaotic's privacy policy",
+	"description": "Sends Chaotic's privacy policy.",
+	"arguments": "",
+	"example": ""
+	},
+
+"vote": {
+	"short_desc": "Sends voting link",
+	"slash_desc": "Vote for Chaotic at top.gg",
+	"description": "Sends voting link.",
+	"arguments": "",
+	"example": ""
+	},
+
+"code": {
+	"short_desc": "Sends a link to the GitHub repository",
+	"slash_desc": "Read the source code",
+	"description": "Sends a link to Chaotic's GitHub repository.",
+	"arguments": "",
+	"example": ""
+	},
+
+"time": {
+	"short_desc": "Sends the current Unix Timestamp",
+	"slash_desc": "Get the current Unix Timestamp",
+	"description": "Sends the current Unix Timestamp.",
+	"arguments": "",
+	"example": ""
+	},
+
+"prime": {
+	"short_desc": "Checks if a number is a prime number",
+	"slash_desc": "Find out if a number is a prime number",
+	"description": "Checks if a number is a prime number, or just a boring normal number.",
+	"arguments": "`number`",
+	"example": "17"
+	},
+
+"convert": {
+	"short_desc": "Converts metric units",
+	"slash_desc": "Convert metric units",
+	"description": "Converts metric units, because imperial units were too complicated for me to program.",
+	"arguments": "`amount` `unit` `unit`",
+	"example": "8 kilograms grams\n17 centimeter decimeter"
+	},
+
+"rng": {
+	"short_desc": "Generates a random number",
+	"slash_desc": "Get a random number",
+	"description": "Generates a random number from `minimum` to `maximum`.",
+	"arguments": "`minimum` `maximum`",
+	"example": "0 10"
+	},
+
+"coinflip": {
+	"short_desc": "Flip a coin",
+	"slash_desc": "Flip a coin",
+	"description": "Flip a coin.",
+	"arguments": "",
+	"example": ""
+	},
+
+"char": {
+	"short_desc": "Counts characters",
+	"slash_desc": "Count characters",
+	"description": "Counts the characters in an argument.",
+	"arguments": "`string`",
+	"example": "The quick brown fox jumps over the lazy dog."
+	}
+}
