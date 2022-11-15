@@ -31,11 +31,11 @@ extensions = [
 	'cogs.privacy',
 	'cogs.vote',
 	'cogs.code',
-	'cogs.char',
-	'cogs.coinflip',
 	'cogs.time',
-	'cogs.rng',
 	'cogs.prime',
-	'cogs.convert'
+	'cogs.convert',
+	'cogs.rng',
+	'cogs.char',
+	'cogs.coinflip'
 ]
 prefix = 'c!'
