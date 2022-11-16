@@ -60,7 +60,7 @@
 	"slash_desc": "Convert metric units",
 	"description": "Converts metric units, because imperial units were too complicated for me to program.",
 	"arguments": "`amount` `unit` `unit`",
-	"example": "8 kilograms grams\n17 centimeter decimeter"
+	"example": "8 kilograms grams"
 	},
 
 "rng": {
