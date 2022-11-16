@@ -9,12 +9,20 @@ This bot will probably not work if you're not on linux
 
 2. Download this repository
 
-	`git clone https://github.com/Chaosboiii/Chaotic.git`
+	```
+	git clone https://github.com/Chaosboiii/Chaotic.git
+	```
 
 3. Install the dependencies
 
-	`pip3 install -U -r requirements.txt`
+	```
+	pip3 install -U -r requirements.txt`
+	```
 
-4. Run Chaotic.py
+4. Paste your token into a file with the name `token`
+		
+5. Run Chaotic.py
 
-	`python3 Chaotic.py`
+	```
+	python3 Chaotic.py
+	```
