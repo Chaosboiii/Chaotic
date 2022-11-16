@@ -19,7 +19,7 @@ This bot will probably not work if you're not on linux
 	pip3 install -U -r requirements.txt`
 	```
 
-4. Paste your token into a file with the name `token`
+4. Paste your token into a file with the name `token` in the same directory as `Chaotic.py`
 		
 5. Run Chaotic.py
 
